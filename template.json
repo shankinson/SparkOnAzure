@@ -29,8 +29,7 @@
                     },
                     "osDisk": {
                         "createOption": "FromImage"
-                    },
-                    "dataDisks": []
+                    }
                 },
                 "osProfile": {
                     "computerName": "[parameters('name')]",
@@ -181,6 +180,77 @@
                     }
                 ]
             }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachineScaleSets",
+            "sku": {
+                "name": "Standard_A1",
+                "tier": "Standard",
+                "capacity": 1
+            },
+            "name": "[concat(parameters('name'),'_vmss')]",
+            "apiVersion": "2016-04-30-preview",
+            "location": "westus",
+            "properties": {
+                "singlePlacementGroup": true,
+                "upgradePolicy": {
+                    "mode": "Manual"
+                },
+                "virtualMachineProfile": {
+                    "osProfile": {
+                        "computerNamePrefix": "worker",
+                        "adminUsername": "spark",
+                        "customData": "I2Nsb3VkLWNvbmZpZwpwYWNrYWdlX3VwZ3JhZGU6IHRydWUKcGFja2FnZXM6CiAgLSBvcGVuamRrLTgtamRrCnJ1bmNtZDoKICAtICd3Z2V0IGh0dHBzOi8vZDNrYmNxYTQ5bWliMTMuY2xvdWRmcm9udC5uZXQvc3BhcmstMi4yLjAtYmluLWhhZG9vcDIuNy50Z3ogLU8gL2hvbWUvc3Bhcmsvc3BhcmstMi4yLjAtYmluLWhhZG9vcDIuNy50Z3onCiAgLSB0YXIgLXh2emYgL2hvbWUvc3Bhcmsvc3BhcmstMi4yLjAtYmluLWhhZG9vcDIuNy50Z3ogLUMgL2hvbWUvc3BhcmsvCiAgLSBybSAvaG9tZS9zcGFyay9zcGFyay0yLjIuMC1iaW4taGFkb29wMi43LnRnegogIC0gY2hvd24gLVIgc3Bhcmsuc3BhcmsgL2hvbWUvc3Bhcmsvc3BhcmstMi4yLjAtYmluLWhhZG9vcDIuNwogIC0gc3UgLWMgIi9ob21lL3NwYXJrL3NwYXJrLTIuMi4wLWJpbi1oYWRvb3AyLjcvc2Jpbi9zdGFydC1zbGF2ZS5zaCBzcGFyazovLzE3Mi4xNi4xLjQ6NzA3NyIgc3BhcmsK",
+                        "linuxConfiguration": {
+                            "disablePasswordAuthentication": true,
+                            "ssh": {
+                                "publicKeys": [
+                                    {
+                                        "path": "/home/spark/.ssh/authorized_keys",
+                                        "keyData": "[parameters('ssh_public_key')]"
+                                    }
+                                ]
+                            }
+                        },
+                        "secrets": []
+                    },
+                    "storageProfile": {
+                        "imageReference": {
+                            "publisher": "Canonical",
+                            "offer": "UbuntuServer",
+                            "sku": "16.04-LTS",
+                            "version": "latest"
+                        },
+                        "osDisk": {
+                            "createOption": "FromImage"
+                        }
+                    },
+                    "networkProfile": {
+                        "networkInterfaceConfigurations": [
+                            {
+                                "name": "work_nic",
+                                "properties": {
+                                    "primary": true,
+                                    "ipConfigurations": [
+                                        {
+                                            "name": "nicipconfig",
+                                            "properties": {
+                                                "subnet": {
+                                                    "id": "[concat(resourceId('Microsoft.Network/virtualNetworks',concat(parameters('name'),'_vnet')),'/subnets/default')]"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                },
+                "overprovision": false
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('name'))]"
+            ]
         }
     ]
 }

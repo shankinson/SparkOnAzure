@@ -1,0 +1,10 @@
+#cloud-config
+package_upgrade: true
+packages:
+  - openjdk-8-jdk
+runcmd:
+  - 'wget https://d3kbcqa49mib13.cloudfront.net/spark-2.2.0-bin-hadoop2.7.tgz -O /home/spark/spark-2.2.0-bin-hadoop2.7.tgz'
+  - tar -xvzf /home/spark/spark-2.2.0-bin-hadoop2.7.tgz -C /home/spark/
+  - rm /home/spark/spark-2.2.0-bin-hadoop2.7.tgz
+  - chown -R spark.spark /home/spark/spark-2.2.0-bin-hadoop2.7
+  - su -c "/home/spark/spark-2.2.0-bin-hadoop2.7/sbin/start-slave.sh spark://172.16.1.4:7077" spark
