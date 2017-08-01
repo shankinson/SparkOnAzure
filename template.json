@@ -3,7 +3,6 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "name": {
-            "defaultValue": "sparktest",
             "type": "String"
         },
         "ssh_public_key": {
