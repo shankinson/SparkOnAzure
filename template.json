@@ -12,27 +12,6 @@
     "variables": {},
     "resources": [
         {
-            "type": "Microsoft.Compute/disks",
-            "name": "[concat(parameters('name'),'_disk')]",
-            "apiVersion": "2016-04-30-preview",
-            "location": "westus",
-            "properties": {
-                "accountType": "Standard_LRS",
-                "osType": "Linux",
-                "creationData": {
-                    "createOption": "FromImage",
-                    "imageReference": {
-                        "publisher": "Canonical",
-                        "offer": "UbuntuServer",
-                        "sku": "16.04-LTS",
-                        "version": "latest"
-                    }
-                },
-                "diskSizeGB": 30
-            },
-            "dependsOn": []
-        },
-        {
             "type": "Microsoft.Compute/virtualMachines",
             "name": "[parameters('name')]",
             "apiVersion": "2016-04-30-preview",
@@ -49,22 +28,14 @@
                         "version": "latest"
                     },
                     "osDisk": {
-                        "osType": "Linux",
-                        "name": "[concat(parameters('name'),'_disk')]",
-                        "createOption": "FromImage",
-                        "caching": "ReadWrite",
-                        "managedDisk": {
-                            "storageAccountType": "Standard_LRS",
-                            "id": "[resourceId('Microsoft.Compute/disks', concat(parameters('name'),'_disk'))]"
-                        },
-                        "diskSizeGB": 30
+                        "createOption": "FromImage"
                     },
                     "dataDisks": []
                 },
                 "osProfile": {
                     "computerName": "[parameters('name')]",
                     "adminUsername": "spark",
-                    "customData": "cGFja2FnZV91cGdyYWRlOiB0cnVlCnBhY2thZ2VzOgogIC0gb3Blbmpkay04LWpkawpydW5jbWQ6CiAgLSAnd2dldCBodHRwczovL2Qza2JjcWE0OW1pYjEzLmNsb3VkZnJvbnQubmV0L3NwYXJrLTIuMi4wLWJpbi1oYWRvb3AyLjcudGd6IC1PIC9ob21lL3NwYXJrL3NwYXJrLTIuMi4wLWJpbi1oYWRvb3AyLjcudGd6JwogIC0gdGFyIC14dnpmIC9ob21lL3NwYXJrL3NwYXJrLTIuMi4wLWJpbi1oYWRvb3AyLjcudGd6IC1DIC9ob21lL3NwYXJrLwogIC0gcm0gL2hvbWUvc3Bhcmsvc3BhcmstMi4yLjAtYmluLWhhZG9vcDIuNy50Z3oKICAtIGNob3duIC1SIHNwYXJrLnNwYXJrIC9ob21lL3NwYXJrL3NwYXJrLTIuMi4wLWJpbi1oYWRvb3AyLjcKICAtIHN1IC1jICIvaG9tZS9zcGFyay9zcGFyay0yLjIuMC1iaW4taGFkb29wMi43L3NiaW4vc3RhcnQtbWFzdGVyLnNoIiBzcGFyawo=",
+                    "customData": "I2Nsb3VkLWNvbmZpZwpwYWNrYWdlX3VwZ3JhZGU6IHRydWUKcGFja2FnZXM6CiAgLSBvcGVuamRrLTgtamRrCnJ1bmNtZDoKICAtICd3Z2V0IGh0dHBzOi8vZDNrYmNxYTQ5bWliMTMuY2xvdWRmcm9udC5uZXQvc3BhcmstMi4yLjAtYmluLWhhZG9vcDIuNy50Z3ogLU8gL2hvbWUvc3Bhcmsvc3BhcmstMi4yLjAtYmluLWhhZG9vcDIuNy50Z3onCiAgLSB0YXIgLXh2emYgL2hvbWUvc3Bhcmsvc3BhcmstMi4yLjAtYmluLWhhZG9vcDIuNy50Z3ogLUMgL2hvbWUvc3BhcmsvCiAgLSBybSAvaG9tZS9zcGFyay9zcGFyay0yLjIuMC1iaW4taGFkb29wMi43LnRnegogIC0gY2hvd24gLVIgc3Bhcmsuc3BhcmsgL2hvbWUvc3Bhcmsvc3BhcmstMi4yLjAtYmluLWhhZG9vcDIuNwogIC0gc3UgLWMgIi9ob21lL3NwYXJrL3NwYXJrLTIuMi4wLWJpbi1oYWRvb3AyLjcvc2Jpbi9zdGFydC1tYXN0ZXIuc2giIHNwYXJrCg==",
                     "linuxConfiguration": {
                         "disablePasswordAuthentication": true,
                         "ssh": {
@@ -87,7 +58,6 @@
                 }
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Compute/disks', concat(parameters('name'),'_disk'))]",
                 "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('name'),'_nic'))]"
             ]
         },
@@ -107,7 +77,7 @@
                                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('name'),'_ip'))]"
                             },
                             "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(parameters('name'),'_subnet'))]"
+                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks',concat(parameters('name'),'_vnet')),'/subnets/default')]"
                             },
                             "primary": true,
                             "privateIPAddressVersion": "IPv4"
@@ -124,9 +94,8 @@
             },
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('name'),'_ip'))]",
-                "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(parameters('name'),'_subnet'))]",
-                "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('name'),'_nsg'))]",
-                "[resourceId('Microsoft.Compute/virtualMachines', parameters('name'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks',concat(parameters('name'),'_vnet'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('name'),'_nsg'))]"
             ]
         },
         {
@@ -188,7 +157,7 @@
                 "publicIPAllocationMethod": "Dynamic",
                 "idleTimeoutInMinutes": 4,
                 "dnsSettings": {
-                    "domainNameLabel": "master"
+                    "domainNameLabel": "[concat(parameters('name'),'-master')]"
                 }
             }
         },
@@ -212,71 +181,6 @@
                     }
                 ]
             }
-        },
-        {
-            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
-            "name": "[concat(parameters('name'),'_allow_ssh')]",
-            "apiVersion": "2017-06-01",
-            "properties": {
-                "protocol": "TCP",
-                "sourcePortRange": "*",
-                "destinationPortRange": "22",
-                "sourceAddressPrefix": "*",
-                "destinationAddressPrefix": "*",
-                "access": "Allow",
-                "priority": 1000,
-                "direction": "Inbound"
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('name'),'_nsg'))]"
-            ]
-        },
-        {
-            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
-            "name": "[concat(parameters('name'),'_allow_sparkmaster')]",
-            "apiVersion": "2017-06-01",
-            "properties": {
-                "protocol": "TCP",
-                "sourcePortRange": "*",
-                "destinationPortRange": "8080",
-                "sourceAddressPrefix": "*",
-                "destinationAddressPrefix": "*",
-                "access": "Allow",
-                "priority": 1010,
-                "direction": "Inbound"
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('name'),'_nsg'))]"
-            ]
-        },
-        {
-            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
-            "name": "[concat(parameters('name'),'_allow_sparkapp')]",
-            "apiVersion": "2017-06-01",
-            "properties": {
-                "protocol": "TCP",
-                "sourcePortRange": "*",
-                "destinationPortRange": "4040",
-                "sourceAddressPrefix": "*",
-                "destinationAddressPrefix": "*",
-                "access": "Allow",
-                "priority": 1011,
-                "direction": "Inbound"
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('name'),'_nsg'))]"
-            ]
-        },
-        {
-            "type": "Microsoft.Network/virtualNetworks/subnets",
-            "name": "[concat(parameters('name'),'_subnet')]",
-            "apiVersion": "2017-06-01",
-            "properties": {
-                "addressPrefix": "172.16.1.0/24"
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks', concat(parameters('name'),'_vnet'))]"
-            ]
         }
     ]
 }
