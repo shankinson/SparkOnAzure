@@ -6,5 +6,7 @@ runcmd:
   - 'wget https://d3kbcqa49mib13.cloudfront.net/spark-2.2.0-bin-hadoop2.7.tgz -O /home/spark/spark-2.2.0-bin-hadoop2.7.tgz'
   - tar -xvzf /home/spark/spark-2.2.0-bin-hadoop2.7.tgz -C /home/spark/
   - rm /home/spark/spark-2.2.0-bin-hadoop2.7.tgz
+  - 'wget http://central.maven.org/maven2/org/apache/hadoop/hadoop-azure/2.8.1/hadoop-azure-2.8.1.jar -O /home/spark/spark-2.2.0-bin-hadoop2.7/jars/hadoop-azure-2.8.1.jar'
+  - 'wget http://central.maven.org/maven2/com/microsoft/azure/azure-storage/2.2.0/azure-storage-2.2.0.jar -O /home/spark/spark-2.2.0-bin-hadoop2.7/jars/azure-storage-2.2.0.jar'
   - chown -R spark.spark /home/spark/spark-2.2.0-bin-hadoop2.7
   - su -c "/home/spark/spark-2.2.0-bin-hadoop2.7/sbin/start-slave.sh spark://172.16.1.4:7077" spark
