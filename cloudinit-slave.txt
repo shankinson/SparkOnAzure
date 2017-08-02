@@ -8,6 +8,8 @@ runcmd:
   - rm /home/spark/spark-2.2.0-bin-hadoop2.7.tgz
   - 'wget http://central.maven.org/maven2/org/apache/hadoop/hadoop-azure/2.7.3/hadoop-azure-2.7.3.jar -O /home/spark/spark-2.2.0-bin-hadoop2.7/jars/hadoop-azure-2.7.3.jar'
   - 'wget http://central.maven.org/maven2/com/microsoft/azure/azure-storage/2.2.0/azure-storage-2.2.0.jar -O /home/spark/spark-2.2.0-bin-hadoop2.7/jars/azure-storage-2.2.0.jar'
+  - echo "SPARK_LOCAL_DIRS=/mnt/spark" > /home/spark/spark-2.2.0-bin-hadoop2.7/conf/spark-env.sh
+  - chmod 755 /home/spark/spark-2.2.0-bin-hadoop2.7/conf/spark-env.sh
   - chown -R spark.spark /home/spark/spark-2.2.0-bin-hadoop2.7
   - mkdir /mnt/spark/
   - chown spark.spark /mnt/spark
