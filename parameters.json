@@ -7,6 +7,15 @@
         },
         "ssh_public_key": {
             "value": null
+        },
+        "masterSize": {
+            "value": "Standard_D3_v2"
+        },
+        "workerSize": {
+            "value": "Standard_D3_v2"
+        },
+        "workerCount": {
+            "value": 6
         }
     }
 }
