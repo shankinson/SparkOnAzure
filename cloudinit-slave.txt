@@ -14,14 +14,14 @@ runcmd:
   - echo "SPARK_LOCAL_DIRS=/mnt/spark" > /home/spark/spark-2.2.0-bin-hadoop2.7/conf/spark-env.sh
   - chmod 755 /home/spark/spark-2.2.0-bin-hadoop2.7/conf/spark-env.sh
   - chown -R spark.spark /home/spark/spark-2.2.0-bin-hadoop2.7
-  - 'echo "<?xml version="1.0" encoding="UTF-8"?>" > /home/spark/hadoop-2.7.4/etc/hadoop/core-site.xml'
+  - 'echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" > /home/spark/hadoop-2.7.4/etc/hadoop/core-site.xml'
   - 'echo "<configuration>" >> /home/spark/hadoop-2.7.4/etc/hadoop/core-site.xml'
   - 'echo "  <property>" >> /home/spark/hadoop-2.7.4/etc/hadoop/core-site.xml'
   - 'echo "    <name>fs.defaultFS</name>" >> /home/spark/hadoop-2.7.4/etc/hadoop/core-site.xml'
   - 'echo "    <value>hdfs://172.16.1.4</value>" >> /home/spark/hadoop-2.7.4/etc/hadoop/core-site.xml'
   - 'echo "  </property>" >> /home/spark/hadoop-2.7.4/etc/hadoop/core-site.xml'
   - 'echo "</configuration>" >> /home/spark/hadoop-2.7.4/etc/hadoop/core-site.xml'
-  - 'echo "<?xml version="1.0" encoding="UTF-8"?>" > /home/spark/hadoop-2.7.4/etc/hadoop/hdfs-site.xml'
+  - 'echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" > /home/spark/hadoop-2.7.4/etc/hadoop/hdfs-site.xml'
   - 'echo "<configuration>" >> /home/spark/hadoop-2.7.4/etc/hadoop/hdfs-site.xml'
   - 'echo "  <property>" >> /home/spark/hadoop-2.7.4/etc/hadoop/hdfs-site.xml'
   - 'echo "    <name>dfs.namenode.name.dir</name>" >> /home/spark/hadoop-2.7.4/etc/hadoop/hdfs-site.xml'
