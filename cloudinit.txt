@@ -4,13 +4,37 @@ packages:
   - openjdk-8-jdk
 runcmd:
   - 'wget https://d3kbcqa49mib13.cloudfront.net/spark-2.2.0-bin-hadoop2.7.tgz -O /home/spark/spark-2.2.0-bin-hadoop2.7.tgz'
-  - tar -xvzf /home/spark/spark-2.2.0-bin-hadoop2.7.tgz -C /home/spark/
+  - tar -xzf /home/spark/spark-2.2.0-bin-hadoop2.7.tgz -C /home/spark/
   - rm /home/spark/spark-2.2.0-bin-hadoop2.7.tgz
-  - 'wget http://central.maven.org/maven2/org/apache/hadoop/hadoop-azure/2.7.3/hadoop-azure-2.7.3.jar -O /home/spark/spark-2.2.0-bin-hadoop2.7/jars/hadoop-azure-2.7.3.jar'
-  - 'wget http://central.maven.org/maven2/com/microsoft/azure/azure-storage/2.2.0/azure-storage-2.2.0.jar -O /home/spark/spark-2.2.0-bin-hadoop2.7/jars/azure-storage-2.2.0.jar'
+  - 'wget http://mirror.dsrg.utoronto.ca/apache/hadoop/common/hadoop-2.7.4/hadoop-2.7.4.tar.gz'
+  - tar -xzf /home/spark/hadoop-2.7.4.tar.gz -C /home/spark/
+  - rm /home/spark/hadoop-2.7.4.tar.gz
+  - cp /home/spark/hadoop-2.7.4/share/hadoop/tools/lib/azure-storage-2.0.0.jar /home/spark/spark-2.2.0-bin-hadoop2.7/jars/azure-storage-2.2.0.jar
+  - cp /home/spark/hadoop-2.7.4/share/hadoop/tools/lib/hadoop-azure-2.7.4.jar /home/spark/spark-2.2.0-bin-hadoop2.7/jars/hadoop-azure-2.7.4.jar
   - echo "SPARK_LOCAL_DIRS=/mnt/spark" > /home/spark/spark-2.2.0-bin-hadoop2.7/conf/spark-env.sh
   - chmod 755 /home/spark/spark-2.2.0-bin-hadoop2.7/conf/spark-env.sh
   - chown -R spark.spark /home/spark/spark-2.2.0-bin-hadoop2.7
+  - 'echo "<?xml version="1.0" encoding="UTF-8"?>" > /home/spark/hadoop-2.7.4/etc/hadoop/core-site.xml'
+  - 'echo "<configuration>" >> /home/spark/hadoop-2.7.4/etc/hadoop/core-site.xml'
+  - 'echo "  <property>" >> /home/spark/hadoop-2.7.4/etc/hadoop/core-site.xml'
+  - 'echo "    <name>fs.defaultFS</name>" >> /home/spark/hadoop-2.7.4/etc/hadoop/core-site.xml'
+  - 'echo "    <value>hdfs://172.16.1.4</value>" >> /home/spark/hadoop-2.7.4/etc/hadoop/core-site.xml'
+  - 'echo "  </property>" >> /home/spark/hadoop-2.7.4/etc/hadoop/core-site.xml'
+  - 'echo "</configuration>" >> /home/spark/hadoop-2.7.4/etc/hadoop/core-site.xml'
+  - 'echo "<?xml version="1.0" encoding="UTF-8"?>" > /home/spark/hadoop-2.7.4/etc/hadoop/hdfs-site.xml'
+  - 'echo "<configuration>" >> /home/spark/hadoop-2.7.4/etc/hadoop/hdfs-site.xml'
+  - 'echo "  <property>" >> /home/spark/hadoop-2.7.4/etc/hadoop/hdfs-site.xml'
+  - 'echo "    <name>dfs.namenode.name.dir</name>" >> /home/spark/hadoop-2.7.4/etc/hadoop/hdfs-site.xml'
+  - 'echo "    <value>/mnt/spark/namenode</value>" >> /home/spark/hadoop-2.7.4/etc/hadoop/hdfs-site.xml'
+  - 'echo "  </property>" >> /home/spark/hadoop-2.7.4/etc/hadoop/hdfs-site.xml'
+  - 'echo "  <property>" >> /home/spark/hadoop-2.7.4/etc/hadoop/hdfs-site.xml'
+  - 'echo "    <name>dfs.datanode.data.dir</name>" >> /home/spark/hadoop-2.7.4/etc/hadoop/hdfs-site.xml'
+  - 'echo "    <value>/mnt/spark/datanode</value>" >> /home/spark/hadoop-2.7.4/etc/hadoop/hdfs-site.xml'
+  - 'echo "  </property>" >> /home/spark/hadoop-2.7.4/etc/hadoop/hdfs-site.xml'
+  - 'echo "</configuration>" >> /home/spark/hadoop-2.7.4/etc/hadoop/hdfs-site.xml'
+  - chown -R spark.spark /home/spark/hadoop-2.7.4
   - mkdir /mnt/spark/
   - chown spark.spark /mnt/spark
   - su -c "/home/spark/spark-2.2.0-bin-hadoop2.7/sbin/start-master.sh" spark
+  - su -c "JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64/ /home/spark/hadoop-2.7.4/bin/hdfs namenode -format spark"
+  - su -c "JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64/ /home/spark/hadoop-2.7.4/sbin/hadoop-daemon.sh --config /home/spark/hadoop-2.7.4/etc/hadoop/ --script hdfs start namenode" spark
