@@ -36,5 +36,5 @@ runcmd:
   - mkdir /mnt/spark/
   - chown spark.spark /mnt/spark
   - su -c "/home/spark/spark-2.2.0-bin-hadoop2.7/sbin/start-master.sh" spark
-  - su -c "JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64/ /home/spark/hadoop-2.7.4/bin/hdfs namenode -format spark"
+  - su -c "JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64/ /home/spark/hadoop-2.7.4/bin/hdfs namenode -format spark" spark
   - su -c "JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64/ /home/spark/hadoop-2.7.4/sbin/hadoop-daemon.sh --config /home/spark/hadoop-2.7.4/etc/hadoop/ --script hdfs start namenode" spark
