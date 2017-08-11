@@ -154,6 +154,19 @@
                             "priority": 1011,
                             "direction": "Inbound"
                         }
+                    },
+                    {
+                        "name": "hdfs",
+                        "properties": {
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "50070",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1012,
+                            "direction": "Inbound"
+                        }
                     }
                 ]
             }
