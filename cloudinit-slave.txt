@@ -6,7 +6,7 @@ runcmd:
   - 'wget https://d3kbcqa49mib13.cloudfront.net/spark-2.2.0-bin-hadoop2.7.tgz -O /home/spark/spark-2.2.0-bin-hadoop2.7.tgz'
   - tar -xvzf /home/spark/spark-2.2.0-bin-hadoop2.7.tgz -C /home/spark/
   - rm /home/spark/spark-2.2.0-bin-hadoop2.7.tgz
-  - 'wget http://mirrors.ocf.berkeley.edu/apache/hadoop/core/hadoop-2.7.4/hadoop-2.7.4.tar.gz -O /home/spark/hadoop-2.7.4.tar.gz'
+  - 'wget https://archive.apache.org/dist/hadoop/core/hadoop-2.7.4/hadoop-2.7.4.tar.gz -O /home/spark/hadoop-2.7.4.tar.gz'
   - tar -xzf /home/spark/hadoop-2.7.4.tar.gz -C /home/spark/
   - rm /home/spark/hadoop-2.7.4.tar.gz
   - cp /home/spark/hadoop-2.7.4/share/hadoop/tools/lib/azure-storage-2.0.0.jar /home/spark/spark-2.2.0-bin-hadoop2.7/jars/azure-storage-2.2.0.jar
