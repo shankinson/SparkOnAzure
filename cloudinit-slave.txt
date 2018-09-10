@@ -11,6 +11,8 @@ runcmd:
   - rm /home/spark/hadoop-2.7.4.tar.gz
   - cp /home/spark/hadoop-2.7.4/share/hadoop/tools/lib/azure-storage-2.0.0.jar /home/spark/spark-2.2.0-bin-hadoop2.7/jars/azure-storage-2.2.0.jar
   - cp /home/spark/hadoop-2.7.4/share/hadoop/tools/lib/hadoop-azure-2.7.4.jar /home/spark/spark-2.2.0-bin-hadoop2.7/jars/hadoop-azure-2.7.4.jar
+  - cp /home/spark/hadoop-2.7.4/share/hadoop/tools/lib/aws-java-sdk-1.7.4.jar /home/spark/spark-2.2.0-bin-hadoop2.7/jars/aws-java-sdk-1.7.4.jar
+  - cp /home/spark/hadoop-2.7.4/share/hadoop/tools/lib/hadoop-aws-2.7.4.jar /home/spark/spark-2.2.0-bin-hadoop2.7/jars/hadoop-aws-2.7.4.jar
   - echo "SPARK_LOCAL_DIRS=/mnt/spark" > /home/spark/spark-2.2.0-bin-hadoop2.7/conf/spark-env.sh
   - chmod 755 /home/spark/spark-2.2.0-bin-hadoop2.7/conf/spark-env.sh
   - chown -R spark.spark /home/spark/spark-2.2.0-bin-hadoop2.7
