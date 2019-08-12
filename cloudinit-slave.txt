@@ -16,6 +16,7 @@ runcmd:
   - cp /home/spark/hadoop-3.2.0/share/hadoop/tools/lib/hadoop-azure-datalake-3.2.0.jar /home/spark/spark-2.4.3-bin-without-hadoop/jars/hadoop-azure-datalake-3.2.0.jar
   - cp /home/spark/hadoop-3.2.0/share/hadoop/tools/lib/wildfly-openssl-1.0.4.Final.jar /home/spark/spark-2.4.3-bin-without-hadoop/jars/wildfly-openssl-1.0.4.Final.jar
   - echo "SPARK_LOCAL_DIRS=/mnt/spark" > /home/spark/spark-2.4.3-bin-without-hadoop/conf/spark-env.sh
+  - echo 'JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64' >> /home/spark/spark-2.4.3-bin-without-hadoop/conf/spark-env.sh
   - echo 'SPARK_DIST_CLASSPATH=$(/home/spark/hadoop-3.2.0/bin/hadoop classpath)' >> /home/spark/spark-2.4.3-bin-without-hadoop/conf/spark-env.sh
   - chmod 755 /home/spark/spark-2.4.3-bin-without-hadoop/conf/spark-env.sh
   - chown -R spark.spark /home/spark/spark-2.4.3-bin-without-hadoop
@@ -48,7 +49,6 @@ runcmd:
   - chown -R spark.spark /home/spark/hadoop-3.2.0
   - mkdir /mnt/spark/
   - chown spark.spark /mnt/spark
-  - echo "export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64" >> /etc/profile
   - _host_iteration=0
   - _hostname=$(hostname)
   - '_hostip=$(getent hosts "${_hostname}" | awk ''{ print $1 }'')'
