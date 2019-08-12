@@ -53,5 +53,5 @@ runcmd:
   - '_hostip=$(getent hosts "${_hostname}" | awk ''{ print $1 }'')'
   - echo "Found hostname [${_hostname}] with IP [${_hostip}]..."
   - 'while ! { echo "${_hostname}" | grep -q ^worker && echo "${_hostip}" | grep -q ^172\.16 ;}; do _host_iteration=$(( _host_iteration + 1 )); echo "Attempt ${_host_iteration}: Waiting for a hostname of form worker* and IP 172.16.x.x..."; sleep 5; done'
-  - su -c "/home/spark/spark-2.4.3-bin-without-hadoop/sbin/start-slave.sh --work-dir /mnt/spark spark://172.16.1.4:7077" spark
-  - su -c "JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64/ /home/spark/hadoop-3.2.0/sbin/hadoop-daemon.sh --config /home/spark/hadoop-3.2.0/etc/hadoop/ --script hdfs start datanode" spark
+  - su -c "JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64/ /home/spark/spark-2.4.3-bin-without-hadoop/sbin/start-slave.sh --work-dir /mnt/spark spark://172.16.1.4:7077" spark
+  - su -c "JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64/ /home/spark/hadoop-3.2.0/bin/hdfs --config /home/spark/hadoop-3.2.0/etc/hadoop/ --daemon start datanode" spark
