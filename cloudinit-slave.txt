@@ -48,6 +48,7 @@ runcmd:
   - chown -R spark.spark /home/spark/hadoop-3.2.0
   - mkdir /mnt/spark/
   - chown spark.spark /mnt/spark
+  - echo "export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64" >> /etc/profile
   - _host_iteration=0
   - _hostname=$(hostname)
   - '_hostip=$(getent hosts "${_hostname}" | awk ''{ print $1 }'')'
